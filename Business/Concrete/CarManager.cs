@@ -21,5 +21,27 @@ namespace Business.Concrete
             //business codes
             return _carDal.GetAll();
         }
+
+        public List<Car> GetCarsByColorId(int id)
+        {
+            return _carDal.GetAll(c => c.ColorId == id);
+        }
+
+        public List<Car> GetCarsByBrandId(int id)
+        {
+            return _carDal.GetAll(c=> c.BrandId == id);
+        }
+
+        public void AddCar(Car car)
+        {
+            if(car.Description.Length >3 && car.DailyPrice > 0)
+            {
+                _carDal.Add(car);
+            }
+            else
+            {
+                throw new Exception("Uygun kriterlere göre araba eklenmedi");
+            }
+        }
     }
 }
