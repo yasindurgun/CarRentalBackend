@@ -10,12 +10,38 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //CarManager carManager = new CarManager(new InMemoryCarDal());
-            //foreach (var item in carManager.GetAll())
-            //{
-            //    Console.WriteLine($"Car Description: {item.Description}");
-            //}
+            //CarManager carManager = InMemoryCarManager();
 
+            //AddCarWithCarManager();
+
+            //BrandOperations();
+
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            foreach (var item in carManager.GetCarDetails())
+            {
+                Console.WriteLine($"Car Name: {item.BrandName}");
+                Console.WriteLine($"Description: {item.Description}");
+                Console.WriteLine($"Daily Price: {item.DailyPrice}");
+                Console.WriteLine($"Color: {item.ColorName}");
+                Console.WriteLine();
+                Console.WriteLine("**********\n");
+            }
+
+            Console.ReadLine();
+        }
+
+        private static void BrandOperations()
+        {
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            var brand = brandManager.GetById(55);
+
+            Console.WriteLine(brand.BrandName);
+        }
+
+        private static void AddCarWithCarManager()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
             Car car = new Car
             {
@@ -27,8 +53,17 @@ namespace ConsoleUI
             };
 
             carManager.AddCar(car);
+        }
 
-            Console.ReadLine();
+        private static CarManager InMemoryCarManager()
+        {
+            CarManager carManager = new CarManager(new InMemoryCarDal());
+            foreach (var item in carManager.GetAll())
+            {
+                Console.WriteLine($"Car Description: {item.Description}");
+            }
+
+            return carManager;
         }
     }
 }
